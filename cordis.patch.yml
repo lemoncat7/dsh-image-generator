@@ -1,0 +1,7 @@
+- insert:
+    - id: lemoncat7-image-generator
+      name: '@lemoncat7/dsh-image-generator'
+      config:
+        baseURL: https://api.openai.com/v1
+        model: gpt-image-1
+        requestTimeoutMs: 180000
