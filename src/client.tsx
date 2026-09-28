@@ -4,6 +4,7 @@ import type {} from '@deepseek-ai/dsh-client-ui-settings-plugins/client'
 import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
 import { useEffect, useState } from 'react'
 import cssText from './client.css'
+import { settingsSurfaceCss } from './settings-surface.js'
 import { API_PREFIX, type PublicConfig } from './protocol.js'
 
 const STYLE_ID = '@lemoncat7/dsh-image-generator/client'
@@ -43,8 +44,8 @@ function SettingsCard(): JSX.Element {
     } catch (reason) { setNotice({ kind: 'error', text: message(reason) }) } finally { setBusy(undefined) }
   }
   const dirty = draft !== undefined && (apiKey.trim() !== '' || draft.baseURL !== saved?.baseURL || draft.model !== saved?.model || draft.requestTimeoutMs !== saved?.requestTimeoutMs)
-  return <li className={`dsh-image-settings${open ? ' is-open' : ''}`}>
-    <button type="button" className="dsh-image-settings-head" onClick={() => setOpen(value => !value)} aria-expanded={open}><span><strong>生图工具</strong><small>为会话提供 OpenAI 通用协议生图能力</small></span><em>{saved?.keyConfigured ? '已配置' : '未配置'}　⌄</em></button>
+  return <li className={`dsh-plugin-settings dsh-image-settings${open ? ' is-open' : ''}`}>
+    <button type="button" className="dsh-image-settings-head" onClick={() => setOpen(value => !value)} aria-expanded={open}><span><strong>生图工具</strong><small>为会话提供 OpenAI 通用协议生图能力</small></span><em>{saved === undefined ? '连接配置' : saved.keyConfigured ? '已配置' : '未配置'}<i aria-hidden="true" /></em></button>
     {open && <div className="dsh-image-settings-body">
       {draft === undefined ? <p className="dsh-image-settings-state">正在读取设置…</p> : <>
         <label><span>API URL</span><input value={draft.baseURL} placeholder="https://api.openai.com/v1" onChange={event => setDraft({ ...draft, baseURL: event.target.value })} /><small>填写到 API 版本目录，工具调用 images/generations。</small></label>
@@ -68,6 +69,6 @@ async function request<T>(url: string, payload?: unknown, method: 'PUT' | 'POST'
 function message(reason: unknown): string { return reason instanceof Error ? reason.message : String(reason) }
 function installStyles(): () => void {
   document.getElementById(STYLE_ID)?.remove()
-  const style = document.createElement('style'); style.id = STYLE_ID; style.textContent = cssText; document.head.append(style)
+  const style = document.createElement('style'); style.id = STYLE_ID; style.textContent = cssText + settingsSurfaceCss; document.head.append(style)
   return () => style.remove()
 }
