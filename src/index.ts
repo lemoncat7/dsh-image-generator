@@ -1,7 +1,7 @@
-import type { Context } from '@deepseek-ai/cordis'
+import type { Context, Volatile } from '@deepseek-ai/cordis'
 import { credentialRef } from '@deepseek-ai/dsh-credentials'
 import type {} from '@deepseek-ai/dsh-host-webserver'
-import type { SettingsProvider } from '@deepseek-ai/dsh-settings'
+import type { SettingsForms } from '@deepseek-ai/dsh-settings'
 import z from '@deepseek-ai/schemastery'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { body, errorMessage, json, trusted } from './http.js'
@@ -17,14 +17,14 @@ export const inject = ['credentials', 'settings', 'tools']
 export const SETTINGS_NAMESPACE = 'lemoncat7-image-generator'
 
 export interface Config { readonly baseURL?: string; readonly model?: string; readonly requestTimeoutMs?: number }
-export const Config: z<Config> = z.object({
+export const Config = z.object({
   baseURL: z.string().default('https://api.openai.com/v1'),
   model: z.string().default('gpt-image-1'),
   requestTimeoutMs: z.number().min(10_000).max(600_000).step(1_000).default(180_000),
-})
+}).volatile()
 
 interface RuntimeConfig { baseURL: string; model: string; requestTimeoutMs: number }
-type RuntimeContext = Context & { settings: SettingsProvider }
+type RuntimeContext = Context & { settings: SettingsForms }
 
 export function resolveConfig(value: Config): RuntimeConfig {
   const baseURL = normalizeBaseURL(value.baseURL ?? 'https://api.openai.com/v1').toString().replace(/\/$/, '')
@@ -35,22 +35,18 @@ export function resolveConfig(value: Config): RuntimeConfig {
   return { baseURL, model, requestTimeoutMs }
 }
 
-export function apply(context: Context, initial: Config): void {
+export function apply(context: Context, initial: Volatile<Config>): void {
   const ctx = context as RuntimeContext
-  let source = (): Config => initial
-  let active = resolveConfig(initial)
-  ctx.settings.installSection(ctx, SETTINGS_NAMESPACE, Config, initial, {
-    setSource(next) { source = next },
-    validate(candidate) { resolveConfig(candidate) },
-    onChange() { active = resolveConfig(source()) },
-  })
+  const active = (): RuntimeConfig => resolveConfig(initial.get())
+  active()
+  ctx.effect(() => ctx.settings.configure({ auto: false }))
 
   const apiKey = async (): Promise<string | undefined> => (await ctx.credentials.resolve(credentialRef(API_KEY_REFERENCE)))?.value
-  ctx.effect(() => ctx.tools.register(imageGenerationTool({ config: () => active, apiKey })), 'image-generator: tool')
+  ctx.effect(() => ctx.tools.register(imageGenerationTool({ config: active, apiKey })), 'image-generator: tool')
 
   ctx.inject(['webServer', 'settings'], injectedCtx => {
     const webCtx = injectedCtx as RuntimeContext & typeof injectedCtx
-    const snapshot = async (): Promise<PublicConfig> => ({ ...active, keyConfigured: (await apiKey()) !== undefined })
+    const snapshot = async (): Promise<PublicConfig> => ({ ...active(), keyConfigured: (await apiKey()) !== undefined })
     webCtx.effect(() => webCtx.webServer.register({ kind: 'exact', path: `${API_PREFIX}/settings`, handler: async (request, response) => {
       await settingsRoute(request, response, {
         snapshot,
@@ -58,7 +54,6 @@ export function apply(context: Context, initial: Config): void {
           const next = resolveConfig(config)
           await webCtx.settings.update(SETTINGS_NAMESPACE, next)
           if (apiKey?.trim()) await webCtx.credentials.set(credentialRef(API_KEY_REFERENCE), apiKey.trim())
-          active = next
           return snapshot()
         },
         test: async (config, candidateKey) => testConnection(resolveConfig(config), candidateKey?.trim() || await apiKey()),

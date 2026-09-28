@@ -1,5 +1,7 @@
 # DSH Image Generator
 
+> 当前兼容分支 `compat/dsh-017-rc2` 面向 **DSH 0.1.7-rc.2**，使用 Node.js 22 构建并在隔离容器验证。此分支尚未发布，不应安装到旧宿主；下文旧版本说明仅适用于对应历史发行版。外部真实渠道、远端主机及付费模型调用不在隔离测试范围内。
+
 一个轻量的 OpenAI 通用协议生图工具插件。API URL、API Key 和模型在 DSH 设置页配置，会话通过 `generate_image` 工具生成图片；插件不提供独立生图工作台。
 
 API Key 由 DSH 凭据服务保存，不会发送到浏览器。工具调用配置地址下的 `images/generations`，支持兼容服务返回 `url` 或 `b64_json`，并把图片保存到当前会话工作目录。

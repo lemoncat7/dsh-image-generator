@@ -29,7 +29,7 @@ test('client only provides styled plugin settings without a generation workspace
   assert.match(css, /prefers-reduced-motion:reduce/)
   assert.doesNotMatch(client, /sidebar\.footer\.action/)
   assert.doesNotMatch(client, /function Workspace/)
-  assert.match(client, /settings\.plugin\.item/)
+  assert.match(client, /settings\.plugins\.tab/)
 })
 
 test('registers image generation as a conversation tool', async () => {

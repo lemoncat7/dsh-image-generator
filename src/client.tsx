@@ -1,6 +1,7 @@
 import type { Context as ClientContext } from '@deepseek-ai/cordis'
 import type {} from '@deepseek-ai/dsh-client-ui-renderer/client'
 import type {} from '@deepseek-ai/dsh-client-ui-settings-plugins/client'
+import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
 import { useEffect, useState } from 'react'
 import cssText from './client.css'
 import { API_PREFIX, type PublicConfig } from './protocol.js'
@@ -11,8 +12,8 @@ export const inject = ['slots']
 
 export function apply(ctx: ClientContext): void {
   ctx.effect(installStyles, 'image-generator: settings styles')
-  ctx.slots.inject('settings.plugin.item', () => ctx.slots.register({
-    name: 'settings.plugin.item', key: 'lemoncat7-image-generator',
+  ctx.slots.inject('settings.plugins.tab', () => ctx.slots.register({
+    name: 'settings.plugins.tab', id: 'lemoncat7-image-generator', label: () => '图像生成',
   }, SettingsCard))
 }
 
