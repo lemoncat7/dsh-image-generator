@@ -1,6 +1,6 @@
 {
   "name": "@lemoncat7/dsh-image-generator",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "OpenAI-compatible image generation tool for DeepSeek Harness conversations",
   "license": "MIT",
   "type": "module",
@@ -24,7 +24,7 @@
     "cordis.patch.yml",
     "README.md",
     "LICENSE",
-    "docs/releases/0.3.1.md"
+    "docs/releases/0.3.2.md"
   ],
   "dsh": {
     "bundle": {
@@ -40,7 +40,8 @@
     }
   },
   "engines": {
-    "node": "^22.19.0 || >=24.0.0"
+    "node": "^22.19.0 || >=24.0.0",
+    "dsh": "0.1.7-rc.2"
   },
   "scripts": {
     "clean": "node -e \"require('node:fs').rmSync('lib', { recursive: true, force: true })\"",
