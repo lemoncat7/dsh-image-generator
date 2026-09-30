@@ -1,6 +1,6 @@
 # DSH Image Generator
 
-> 当前正式版 **0.3.2**，通过 `engines.dsh` 显式声明适配 **DSH 0.1.7-rc.2**。插件为正式版，宿主仍为 RC；不支持直接用于旧宿主。Node.js **^22.19.0 或 >=24.0.0**。旧版源码保留于 `pre-dsh-0.1.7-rc.2`；详见 [0.3.2 发布说明](docs/releases/0.3.2.md)。
+> 当前版本 **0.3.3**，已验证宿主 **DSH 0.2.0-rc.2**（宿主仍为 RC）。详见 [兼容说明](docs/dsh-020-compatibility.md) 和 [发布说明](docs/releases/0.3.3.md)。
 
 一个轻量的 OpenAI 通用协议生图工具插件。API URL、API Key 和模型在 DSH 设置页配置，会话通过 `generate_image` 工具生成图片；插件不提供独立生图工作台。
 
@@ -10,7 +10,7 @@ API Key 由 DSH 凭据服务保存，不会发送到浏览器。工具调用配�
 
 ## 兼容性
 
-正式版 `0.3.2` 面向并验证 DeepSeek Harness `0.1.7-rc.2`，需要 Node.js `^22.19.0` 或 `>=24.0.0`。旧宿主请使用历史 `0.2.0`，本版已移除退役的 Code Runtime 依赖。
+正式版 `0.3.3` 面向并验证 DeepSeek Harness `0.2.0-rc.2`，需要 Node.js `^22.19.0` 或 `>=24.0.0`。旧宿主请使用历史 `0.2.0`，本版已移除退役的 Code Runtime 依赖。
 
 ## 安装
 
