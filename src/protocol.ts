@@ -1,4 +1,5 @@
 export const API_PREFIX = '/lemoncat7-image-generator/v1'
+export const SETTINGS_REQUEST_HEADER = 'x-dsh-image-generator-request'
 export const API_KEY_REFERENCE = 'OPENAI_IMAGE_API_KEY'
 export const MAX_PROMPT_LENGTH = 8_000
 export const MAX_RESPONSE_BYTES = 32 * 1024 * 1024

@@ -5,7 +5,7 @@ import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
 import { useEffect, useState } from 'react'
 import cssText from './client.css'
 import { settingsSurfaceCss } from './settings-surface.js'
-import { API_PREFIX, type PublicConfig } from './protocol.js'
+import { API_PREFIX, SETTINGS_REQUEST_HEADER, type PublicConfig } from './protocol.js'
 
 const STYLE_ID = '@lemoncat7/dsh-image-generator/client'
 
@@ -60,7 +60,7 @@ function SettingsCard(): JSX.Element {
 }
 
 async function request<T>(url: string, payload?: unknown, method: 'PUT' | 'POST' = 'POST'): Promise<T> {
-  const response = await fetch(url, payload === undefined ? { method: 'GET' } : { method, headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) })
+  const response = await fetch(url, payload === undefined ? { method: 'GET' } : { method, headers: { 'content-type': 'application/json', [SETTINGS_REQUEST_HEADER]: '1' }, body: JSON.stringify(payload) })
   const result = await response.json() as T | { error?: string }
   if (!response.ok) throw new Error(typeof result === 'object' && result !== null && 'error' in result && typeof result.error === 'string' ? result.error : `HTTP ${response.status}`)
   return result as T

@@ -1,11 +1,28 @@
 import type { IncomingHttpHeaders, IncomingMessage, ServerResponse } from 'node:http'
-import { MAX_RESPONSE_BYTES } from './protocol.js'
+import { MAX_RESPONSE_BYTES, SETTINGS_REQUEST_HEADER } from './protocol.js'
 
-export function trusted(request: { headers: IncomingHttpHeaders }, mutation: boolean): boolean {
+export function trusted(request: { headers: IncomingHttpHeaders; socket?: { remoteAddress?: string | undefined } }, mutation: boolean): boolean {
   const host = single(request.headers, 'host'); if (host === undefined) return false
+  if (Array.isArray(request.headers.origin) || Array.isArray(request.headers['sec-fetch-site'])) return false
   if (single(request.headers, 'sec-fetch-site') === 'cross-site') return false
-  const origin = single(request.headers, 'origin'); if (origin === undefined) return !mutation
-  try { return new URL(origin).host === new URL(`http://${host}`).host } catch { return false }
+  const origin = single(request.headers, 'origin')
+  if (origin === undefined) {
+    if (!mutation) return true
+    // Desktop validates dsh-app://app, then strips browser origin metadata.
+    // This non-simple header is a CSRF guard, not authentication: the host
+    // still authenticates its forwarding cookie. Never trust X-Forwarded-*.
+    if (request.headers['sec-fetch-site'] !== undefined || single(request.headers, SETTINGS_REQUEST_HEADER) !== '1') return false
+    if (!['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(request.socket?.remoteAddress ?? '')) return false
+    try {
+      const target = new URL(`http://${host}`)
+      return target.host === host.toLowerCase() && ['127.0.0.1', 'localhost', '[::1]'].includes(target.hostname)
+        && !target.username && !target.password && target.pathname === '/' && !target.search && !target.hash
+    } catch { return false }
+  }
+  try {
+    const source = new URL(origin)
+    return ['http:', 'https:'].includes(source.protocol) && source.origin === origin && source.host === new URL(`http://${host}`).host
+  } catch { return false }
 }
 
 export async function body(request: IncomingMessage, maximum = 32 * 1024): Promise<unknown> {
