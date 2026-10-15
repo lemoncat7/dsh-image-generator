@@ -1,6 +1,5 @@
 # DSH Image Generator
 
-> 当前版本 **0.3.4**，面向宿主 **DSH 0.2.0-rc.2**（宿主仍为 RC）。详见 [兼容说明](docs/dsh-020-compatibility.md) 和 [发布说明](docs/releases/0.3.4.md)。
 
 一个轻量的 OpenAI 通用协议生图工具插件。API URL、API Key 和模型在 DSH 设置页配置，会话通过 `generate_image` 工具生成图片；插件不提供独立生图工作台。
 
@@ -10,12 +9,12 @@ API Key 由 DSH 凭据服务保存，不会发送到浏览器。工具调用配�
 
 ## 兼容性
 
-`0.3.4` 延续 DeepSeek Harness `0.2.0-rc.2` 的兼容声明，需要 Node.js `^22.19.0` 或 `>=24.0.0`。旧宿主请使用历史 `0.2.0`，本版已移除退役的 Code Runtime 依赖。桌面端本次验证范围见发布说明，不等同于完整 macOS 客户端验收。
+适配 DeepSeek Harness **0.2.0-rc.2**（宿主仍为 RC），需要 Node.js **^22.19.0 或 >=24.0.0**。其他宿主版本请先查阅[兼容说明](docs/dsh-020-compatibility.md)和对应版本的发布说明。 桌面来源兼容已有自动化测试，不等同于完整 macOS 客户端验收。
 
 ## 安装
 
 ```bash
-dsh plugin --profile web add @lemoncat7/dsh-image-generator@0.3.4
+dsh plugin --profile web add @lemoncat7/dsh-image-generator@latest
 ```
 
 ## 开发
@@ -30,3 +29,7 @@ DSH 桌面端验证 `dsh-app://app` 后，转发到本地服务时会删除 `Ori
 npm install
 npm test
 ```
+
+## 版本记录
+
+历史变更见 [GitHub Releases](https://github.com/lemoncat7/dsh-image-generator/releases)，维护约定见[发布文档](docs/releases/README.md)。
