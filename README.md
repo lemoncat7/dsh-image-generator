@@ -9,7 +9,7 @@ API Key 由 DSH 凭据服务保存，不会发送到浏览器。工具调用配�
 
 ## 兼容性
 
-适配 DeepSeek Harness **0.2.0-rc.2**（宿主仍为 RC），需要 Node.js **^22.19.0 或 >=24.0.0**。其他宿主版本请先查阅[兼容说明](docs/dsh-020-compatibility.md)和对应版本的发布说明。 桌面来源兼容已有自动化测试，不等同于完整 macOS 客户端验收。
+适配 DeepSeek Harness **0.2.1-rc.2**（宿主仍为 RC），需要 Node.js **^22.19.0 或 >=24.0.0**。其他宿主版本请先查阅[兼容说明](docs/dsh-021-compatibility.md)和对应版本的发布说明。 桌面来源兼容已有自动化测试，不等同于完整 macOS 客户端验收。
 
 ## 安装
 
