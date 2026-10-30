@@ -18,7 +18,7 @@ export interface ImageToolRuntime {
 export function imageGenerationTool(runtime: ImageToolRuntime): ToolDefinition {
   return {
     name: 'generate_image',
-    description: 'Generate or edit images using the configured OpenAI-compatible image service. For image-to-image work, pass one or more reference image paths from the current conversation workspace. It saves real output files in that workspace; cite the returned paths so the user receives the images.',
+    description: '生图、画图、生成图片、图生图、图片编辑。用户要求图片时实际调用本工具，成功后用返回文件路径交付，不要只回复提示词或承诺。Generate or edit images using the configured OpenAI-compatible image service. For image-to-image work, pass one or more reference image paths from the current conversation workspace. It saves real output files in that workspace; cite the returned paths so the user receives the images.',
     parameters: {
       type: 'object', additionalProperties: false,
       properties: {

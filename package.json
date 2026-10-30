@@ -1,6 +1,6 @@
 {
   "name": "@lemoncat7/dsh-image-generator",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "OpenAI-compatible image generation tool for DeepSeek Harness conversations",
   "license": "MIT",
   "type": "module",
@@ -29,7 +29,8 @@
     "docs/releases/0.3.2.md",
     "docs/dsh-020-compatibility.md",
     "docs/dsh-021-compatibility.md",
-    "docs/releases/0.3.5.md"
+    "docs/releases/0.3.5.md",
+    "docs/releases/0.3.7.md"
   ],
   "dsh": {
     "bundle": {
