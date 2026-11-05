@@ -39,3 +39,8 @@ npm test
 ## 0.3.8 生图诊断
 
 每次实际请求在当前工作目录 `.image-generation/attempts/` 保存诊断记录，错误和成功返回附带路径；按需读取，不加入长期记忆。详见 [版本说明](docs/releases/0.3.8.md)。
+
+
+## DSH 0.2.2-rc.1
+
+0.3.9 支持 DSH 0.2.2-rc.1，要求 Node.js >=24.9.0。[兼容说明](docs/compatibility-0.2.2-rc.1.md)。
