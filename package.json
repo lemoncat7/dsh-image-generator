@@ -1,6 +1,6 @@
 {
   "name": "@lemoncat7/dsh-image-generator",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "description": "OpenAI-compatible image generation tool for DeepSeek Harness conversations",
   "license": "MIT",
   "type": "module",
@@ -34,7 +34,9 @@
     "docs/releases/0.3.9.md",
     "docs/compatibility-0.2.2-rc.1.md",
     "docs/compatibility-0.2.2-rc.2.md",
-    "docs/releases/0.3.10.md"
+    "docs/releases/0.3.10.md",
+    "docs/host-compatibility-policy.md",
+    "docs/releases/0.3.11.md"
   ],
   "dsh": {
     "bundle": {
@@ -50,8 +52,7 @@
     }
   },
   "engines": {
-    "node": ">=24.9.0",
-    "dsh": "=0.2.2-rc.1 || =0.2.2-rc.2"
+    "node": ">=24.9.0"
   },
   "scripts": {
     "clean": "node -e \"require('node:fs').rmSync('lib', { recursive: true, force: true })\"",
@@ -65,11 +66,11 @@
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.1.0",
-    "@deepseek-ai/dsh-agent": "^0.2.2-rc.1",
-    "@deepseek-ai/dsh-credentials": "^0.2.2-rc.1",
-    "@deepseek-ai/dsh-host-webserver": "^0.2.2-rc.1",
-    "@deepseek-ai/dsh-settings": "^0.2.2-rc.1",
-    "@deepseek-ai/dsh-tools": "^0.2.2-rc.1"
+    "@deepseek-ai/dsh-agent": "*",
+    "@deepseek-ai/dsh-credentials": "*",
+    "@deepseek-ai/dsh-host-webserver": "*",
+    "@deepseek-ai/dsh-settings": "*",
+    "@deepseek-ai/dsh-tools": "*"
   },
   "devDependencies": {
     "@deepseek-ai/cordis": "~4.1.0",
